@@ -1,0 +1,136 @@
+.page {
+  padding-block: 40px 80px;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.headerCard,
+.vehicleDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 24px;
+  background-color: var(--color-inputs);
+  border-radius: 16px;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.33;
+  color: var(--color-main);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  color: var(--color-main);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.33;
+  color: var(--color-main);
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.33;
+  color: var(--color-main);
+}
+
+.equipmentList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.equipmentItem {
+  padding: 12px 18px;
+  border-radius: 100px;
+  background-color: var(--color-badges);
+  mix-blend-mode: multiply;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--color-main);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-gray-light);
+  margin: 0;
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailsItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: var(--color-main);
+}
+
+.bottom {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  margin-top: 88px;
+}
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+  min-width: 0;
+}
+
+.booking {
+  width: 641px;
+  flex-shrink: 0;
+}

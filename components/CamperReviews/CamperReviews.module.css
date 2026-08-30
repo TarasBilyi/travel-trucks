@@ -1,0 +1,58 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--color-inputs);
+  border-radius: 16px;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.33;
+  color: var(--color-gray-green);
+}
+
+.nameRating {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--color-main);
+}
+
+.comment {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.empty {
+  font-size: 16px;
+  color: var(--color-text);
+}

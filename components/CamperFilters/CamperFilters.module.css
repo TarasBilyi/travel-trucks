@@ -1,0 +1,146 @@
+.sidebar {
+  width: 360px;
+  padding: 24px;
+  background-color: var(--color-inputs);
+  border-radius: 20px;
+}
+
+.locationLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  line-height: 1.5;
+  color: var(--color-gray);
+  margin-bottom: 40px;
+}
+
+.locationField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-white);
+  border-radius: 12px;
+  padding: 18px 20px;
+  height: 56px;
+  background-color: var(--color-white);
+  transition: border-color var(--transition-effect);
+}
+
+.locationIcon {
+  fill: var(--color-gray);
+  flex-shrink: 0;
+  transition: fill var(--transition-effect);
+}
+
+.locationField:focus-within {
+  border-color: var(--color-gray-light);
+}
+
+.locationField:focus-within .locationIcon {
+  fill: var(--color-main);
+}
+
+.locationInput {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: var(--color-main);
+  width: 100%;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.filtersTitle {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--color-main);
+}
+
+.group {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.groupTitle {
+  color: var(--color-gray);
+  margin-bottom: 8px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.5;
+  color: var(--color-main);
+  cursor: pointer;
+}
+
+.radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radioMark {
+  position: relative;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--color-text);
+}
+
+.radioMark::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background-color: var(--color-text);
+  transform: scale(0);
+  transition: transform var(--transition-effect);
+}
+
+.radio:checked + .radioMark::after {
+  transform: scale(1);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid var(--color-gray-light);
+  border-radius: 200px;
+  padding: 15px 0;
+  font-weight: 500;
+  background-color: var(--color-white);
+  color: var(--color-main);
+  transition:
+    border-color var(--transition-effect),
+    color var(--transition-effect);
+}
+
+.clear:hover {
+  border-color: var(--color-green-hover);
+  color: var(--color-green-hover);
+}

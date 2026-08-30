@@ -1,0 +1,46 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+  width: 638px;
+  flex-shrink: 0;
+}
+
+.mainSwiper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.mainImage {
+  width: 100%;
+  height: 505px;
+  object-fit: cover;
+}
+
+.thumbsSwiper {
+  width: 100%;
+}
+
+.thumbImage {
+  width: 100%;
+  height: 144px;
+  object-fit: cover;
+  border-radius: 16px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--transition-effect);
+}
+
+.thumbsSwiper :global(.swiper-slide-thumb-active) .thumbImage {
+  opacity: 1;
+  outline: 3px solid var(--color-gray-green);
+  outline-offset: -3px;
+}
+
+.placeholder {
+  width: 638px;
+  height: 505px;
+  border-radius: 16px;
+  background-color: var(--color-badges);
+}

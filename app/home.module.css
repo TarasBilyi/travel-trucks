@@ -1,0 +1,32 @@
+.home {
+  min-height: calc(100vh - 72px);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.2)), url("/home/home-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 195px;
+}
+
+@media screen and (min-resolution: 192dpi) {
+  .home {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.2)), url("/home/home-bg@2x.jpg");
+  }
+}
+
+.title {
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 0.66;
+  color: var(--color-inputs);
+  margin-bottom: 16px;
+}
+
+.desc {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.33;
+  color: var(--color-inputs);
+  margin-bottom: 40px;
+}

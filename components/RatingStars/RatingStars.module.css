@@ -1,0 +1,13 @@
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.filled {
+  color: var(--color-rating);
+}
+
+.empty {
+  color: var(--color-badges);
+}
