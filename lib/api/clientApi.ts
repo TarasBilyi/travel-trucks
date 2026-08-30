@@ -1,8 +1,6 @@
-import { nextServer } from "./api";
+import { api } from "./api";
 import {
-  Camper,
   CamperFiltersOptions,
-  CamperReview,
   FetchCampersParams,
   FetchCampersResponse,
 } from "@/types/camper";
@@ -12,7 +10,7 @@ export async function fetchCampers(
 ): Promise<FetchCampersResponse> {
   const { page, perPage = 4, location, form, transmission, engine } = params;
 
-  const { data } = await nextServer.get<FetchCampersResponse>("/campers", {
+  const { data } = await api.get<FetchCampersResponse>("/campers", {
     params: {
       page,
       perPage,
@@ -27,22 +25,7 @@ export async function fetchCampers(
 }
 
 export async function fetchCamperFilters(): Promise<CamperFiltersOptions> {
-  const { data } =
-    await nextServer.get<CamperFiltersOptions>("/campers/filters");
-  return data;
-}
-
-export async function fetchCamperById(id: string): Promise<Camper> {
-  const { data } = await nextServer.get<Camper>(`/campers/${id}`);
-  return data;
-}
-
-export async function fetchCamperReviews(
-  id: string,
-): Promise<CamperReview[]> {
-  const { data } = await nextServer.get<CamperReview[]>(
-    `/campers/${id}/reviews`,
-  );
+  const { data } = await api.get<CamperFiltersOptions>("/campers/filters");
   return data;
 }
 
@@ -61,7 +44,7 @@ export async function createBooking({
   name,
   email,
 }: BookingPayload): Promise<BookingResponse> {
-  const { data } = await nextServer.post<BookingResponse>(
+  const { data } = await api.post<BookingResponse>(
     `/campers/${camperId}/booking-requests`,
     { name, email },
   );

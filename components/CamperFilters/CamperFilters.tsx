@@ -2,14 +2,11 @@
 
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import css from "./CamperFilters.module.css";
 import { IconClose, IconLocation } from "@/components/Icons/Icons";
-import { CamperFiltersOptions } from "@/types/camper";
 import { humanize } from "@/lib/format";
-
-interface CamperFiltersProps {
-  options: CamperFiltersOptions;
-}
+import { fetchCamperFilters } from "@/lib/api/clientApi";
 
 function RadioGroup({
   title,
@@ -46,10 +43,15 @@ function RadioGroup({
   );
 }
 
-const CamperFilters = ({ options }: CamperFiltersProps) => {
+const CamperFilters = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const { data: options } = useQuery({
+    queryKey: ["camper-filters"],
+    queryFn: fetchCamperFilters,
+  });
 
   const [location, setLocation] = useState(searchParams.get("location") ?? "");
   const [form, setForm] = useState<string | undefined>(
@@ -91,6 +93,10 @@ const CamperFilters = ({ options }: CamperFiltersProps) => {
     router.push(pathname);
   };
 
+  const forms = options?.forms ?? [];
+  const engines = options?.engines ?? [];
+  const transmissions = options?.transmissions ?? [];
+
   return (
     <form className={css.sidebar} onSubmit={handleSubmit}>
       <label className={css.locationLabel}>
@@ -113,7 +119,7 @@ const CamperFilters = ({ options }: CamperFiltersProps) => {
         <RadioGroup
           title="Camper form"
           name="form"
-          values={options.forms}
+          values={forms}
           selected={form}
           onChange={setForm}
         />
@@ -121,7 +127,7 @@ const CamperFilters = ({ options }: CamperFiltersProps) => {
         <RadioGroup
           title="Engine"
           name="engine"
-          values={options.engines}
+          values={engines}
           selected={engine}
           onChange={setEngine}
         />
@@ -129,7 +135,7 @@ const CamperFilters = ({ options }: CamperFiltersProps) => {
         <RadioGroup
           title="Transmission"
           name="transmission"
-          values={options.transmissions}
+          values={transmissions}
           selected={transmission}
           onChange={setTransmission}
         />
