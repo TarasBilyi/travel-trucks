@@ -38,7 +38,7 @@ const CamperCard = ({ camper }: CamperCardProps) => {
 
         <div className={css.metaRow}>
           <span className={css.rating}>
-            <RatingStars rating={camper.rating} size={16} />
+            <RatingStars rating={camper.rating} size={16} count={1} />
             {camper.rating.toFixed(1)}({camper.totalReviews} Reviews)
           </span>
           <span className={css.location}>

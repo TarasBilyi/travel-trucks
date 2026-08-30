@@ -1,5 +1,6 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import css from "./CatalogPage.module.css";
 import CamperCard from "@/components/CamperCard/CamperCard";
@@ -10,11 +11,23 @@ import { CampersFilters, FetchCampersResponse } from "@/types/camper";
 
 const PAGE_SIZE = 4;
 
+const emptySubscribe = () => () => {};
+
+function useIsClient() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+}
+
 interface CatalogClientProps {
   filters: CampersFilters;
 }
 
 const CatalogClient = ({ filters }: CatalogClientProps) => {
+  const isClient = useIsClient();
+
   const {
     data,
     isLoading,
@@ -38,7 +51,7 @@ const CatalogClient = ({ filters }: CatalogClientProps) => {
 
   return (
     <div className={css.results}>
-      {isLoading && <LoadingOverlay />}
+      {isClient && isLoading && <LoadingOverlay />}
 
       {isError && !isLoading && (
         <p className={css.message}>

@@ -35,7 +35,7 @@ const CamperDetailsClient = ({ camper, reviews }: CamperDetailsClientProps) => {
 
         <div className={css.info}>
           <div className={css.headerCard}>
-            <div className={css.titleBlock}>
+            <div>
               <h1 className={css.name}>{camper.name}</h1>
 
               <div className={css.metaRow}>
@@ -49,7 +49,7 @@ const CamperDetailsClient = ({ camper, reviews }: CamperDetailsClientProps) => {
                 </span>
               </div>
 
-              <p className={css.price}>&euro;{camper.price.toFixed(2)}</p>
+              <p className={css.price}>&euro;{camper.price.toFixed(0)}</p>
             </div>
 
             <p className={css.description}>{camper.description}</p>

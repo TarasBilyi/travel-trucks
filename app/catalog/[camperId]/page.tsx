@@ -27,8 +27,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 async function getCamperData(camperId: string) {
   try {
-    // Reviews live on a separate endpoint (GET /campers/{camperId}/reviews),
-    // fetch both in parallel.
     const [camper, reviews] = await Promise.all([
       fetchCamperById(camperId),
       fetchCamperReviews(camperId),

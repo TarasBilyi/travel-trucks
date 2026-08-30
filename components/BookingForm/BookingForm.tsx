@@ -1,63 +1,33 @@
 "use client";
 
-import { Formik, Form, useField } from "formik";
+import { useState, type FormEvent } from "react";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { isAxiosError } from "axios";
-import css from "./BookingForm.module.css";
+import { IconAlert } from "@/components/Icons/Icons";
 import { createBooking } from "@/lib/api/clientApi";
+import css from "./BookingForm.module.css";
 
 interface BookingFormProps {
   camperId: string;
 }
 
-interface BookingFormValues {
-  name: string;
-  email: string;
-}
-
-const initialValues: BookingFormValues = {
-  name: "",
-  email: "",
-};
-
-const BookingSchema = Yup.object().shape({
-  name: Yup.string().trim().min(2, "Too short").required("Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
+const schema = Yup.object({
+  name: Yup.string().trim().required("Please enter your name."),
+  email: Yup.string()
+    .trim()
+    .required("Please enter your email.")
+    .email("Please enter your email."),
 });
 
-interface TextFieldProps {
-  name: keyof BookingFormValues;
-  type: string;
-  placeholder: string;
-}
-
-/**
- * Wraps Formik's field state (useField) so the input border reacts to
- * touched+invalid, not just the error text below it.
- */
-function TextField({ name, type, placeholder }: TextFieldProps) {
-  const [field, meta] = useField(name);
-  const showError = meta.touched && Boolean(meta.error);
-
-  return (
-    <div className={css.field}>
-      <input
-        {...field}
-        type={type}
-        placeholder={placeholder}
-        className={`${css.input} ${showError ? css.inputError : ""}`}
-        aria-invalid={showError}
-      />
-      {showError && <span className={css.error}>{meta.error}</span>}
-    </div>
-  );
-}
-
 const BookingForm = ({ camperId }: BookingFormProps) => {
+  const [shakeKey, setShakeKey] = useState(0);
+  const [activeField, setActiveField] = useState<"name" | "email" | null>(null);
+
   const mutation = useMutation({
-    mutationFn: (values: BookingFormValues) =>
+    mutationFn: (values: { name: string; email: string }) =>
       createBooking({
         camperId,
         name: values.name.trim(),
@@ -67,15 +37,40 @@ const BookingForm = ({ camperId }: BookingFormProps) => {
       toast.success(data.message || "Booking request sent!");
     },
     onError: (error) => {
-      const backendMessage =
+      const message =
         isAxiosError(error) &&
-        (error.response?.data as { response?: { message?: string } })
-          ?.response?.message;
-      toast.error(
-        backendMessage || "Failed to send booking. Please try again.",
-      );
+        (error.response?.data as { response?: { message?: string } })?.response
+          ?.message;
+      toast.error(message || "Failed to send booking. Please try again.");
     },
   });
+
+  const formik = useFormik({
+    initialValues: { name: "", email: "" },
+    validationSchema: schema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await mutation.mutateAsync(values);
+        resetForm();
+      } catch {}
+    },
+  });
+
+  const nameInvalid = Boolean(formik.touched.name && formik.errors.name);
+  const emailInvalid = Boolean(formik.touched.email && formik.errors.email);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const errors = await formik.validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      await formik.setTouched({ name: true, email: true });
+      setShakeKey((k) => k + 1);
+      return;
+    }
+
+    formik.handleSubmit();
+  };
 
   return (
     <div className={css.wrapper}>
@@ -86,30 +81,73 @@ const BookingForm = ({ camperId }: BookingFormProps) => {
         </p>
       </div>
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={BookingSchema}
-        onSubmit={(values, { resetForm }) => {
-          mutation.mutate(values, {
-            onSuccess: () => resetForm(),
-          });
-        }}
-      >
-        <Form className={css.form} noValidate>
-          <div className={css.inputs}>
-            <TextField name="name" type="text" placeholder="Name*" />
-            <TextField name="email" type="email" placeholder="Email*" />
+      <form className={css.form} onSubmit={handleSubmit} noValidate>
+        <div className={css.field}>
+          {nameInvalid && <span className={css.floatingLabel}>Name*</span>}
+          <div className={css.inputWrap}>
+            <input
+              type="text"
+              name="name"
+              autoComplete="name"
+              placeholder={activeField === "name" ? "Name" : "Name*"}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onFocus={() => setActiveField("name")}
+              onBlur={() => {
+                setActiveField((prev) => (prev === "name" ? null : prev));
+                if (formik.values.name.trim()) {
+                  formik.setFieldTouched("name", true);
+                }
+              }}
+              className={`${css.input} ${nameInvalid ? css.inputError : ""}`}
+              aria-invalid={nameInvalid}
+            />
+            {nameInvalid && <IconAlert className={css.errorIcon} size={20} />}
           </div>
+          {nameInvalid && (
+            <p key={`name-${shakeKey}`} className={css.errorText}>
+              {formik.errors.name}
+            </p>
+          )}
+        </div>
 
-          <button
-            className={css.submit}
-            type="submit"
-            disabled={mutation.isPending}
-          >
-            {mutation.isPending ? "Sending..." : "Send"}
-          </button>
-        </Form>
-      </Formik>
+        <div className={css.field}>
+          {emailInvalid && <span className={css.floatingLabel}>Email*</span>}
+          <div className={css.inputWrap}>
+            <input
+              type="email"
+              name="email"
+              autoComplete="email"
+              placeholder={activeField === "email" ? "Email" : "Email*"}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onFocus={() => setActiveField("email")}
+              onBlur={() => {
+                setActiveField((prev) => (prev === "email" ? null : prev));
+                if (formik.values.email.trim()) {
+                  formik.setFieldTouched("email", true);
+                }
+              }}
+              className={`${css.input} ${emailInvalid ? css.inputError : ""}`}
+              aria-invalid={emailInvalid}
+            />
+            {emailInvalid && <IconAlert className={css.errorIcon} size={20} />}
+          </div>
+          {emailInvalid && (
+            <p key={`email-${shakeKey}`} className={css.errorText}>
+              {formik.errors.email}
+            </p>
+          )}
+        </div>
+
+        <button
+          className={css.submit}
+          type="submit"
+          disabled={mutation.isPending || formik.isSubmitting}
+        >
+          {mutation.isPending || formik.isSubmitting ? "Sending..." : "Send"}
+        </button>
+      </form>
     </div>
   );
 };

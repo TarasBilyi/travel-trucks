@@ -1,5 +1,5 @@
 .page {
-  padding-block: 40px 80px;
+  padding-block: 64px;
 }
 
 .hero {
@@ -16,8 +16,7 @@
   min-width: 0;
 }
 
-.headerCard,
-.vehicleDetails {
+.headerCard {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -27,17 +26,12 @@
   border-radius: 16px;
 }
 
-.titleBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .name {
   font-weight: 600;
   font-size: 24px;
   line-height: 1.33;
   color: var(--color-main);
+  margin-bottom: 8px;
 }
 
 .metaRow {
@@ -45,7 +39,9 @@
   align-items: center;
   gap: 16px;
   font-size: 16px;
+  line-height: 1.5;
   color: var(--color-main);
+  margin-bottom: 16px;
 }
 
 .rating {
@@ -73,6 +69,16 @@
   color: var(--color-text);
 }
 
+.vehicleDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 24px;
+  background-color: var(--color-inputs);
+  border-radius: 16px;
+}
+
 .sectionTitle {
   font-weight: 600;
   font-size: 24px;
@@ -93,6 +99,7 @@
   mix-blend-mode: multiply;
   font-weight: 500;
   font-size: 16px;
+  line-height: 1.5;
   color: var(--color-main);
 }
 
@@ -112,6 +119,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 16px;
+  line-height: 1.5;
   color: var(--color-main);
 }
 
