@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Travel Trucks
 
-## Getting Started
+A modern camper rental catalog built with Next.js. Browse, filter, and book campervans with a smooth infinite-scroll catalog, detailed vehicle pages, image galleries, and a booking request form.
 
-First, run the development server:
+**Live demo:** [Travel Trucks](https://travel-trucks-iota-one.vercel.app/)
+
+## ✨ Features
+
+- 🏠 Landing page with a call-to-action into the catalog
+- 🔍 Camper catalog with server-driven filters (location, form, transmission, engine)
+- ♾️ Infinite scroll / "Load more" pagination powered by TanStack Query
+- 📄 Detailed camper page with gallery, specs, equipment list, and reviews
+- 🖼️ Image gallery with thumbnail navigation (Swiper)
+- 📝 Booking request form with client-side validation (Formik + Yup) and toast notifications
+- ⚡ Empty/error/loading states for a polished UX
+- 📱 Responsive layout
+- 🔎 SEO-friendly metadata (per-page titles & descriptions)
+
+## 🛠️ Tech Stack
+
+- [Next.js 16](https://nextjs.org/) (App Router, Turbopack, React Compiler)
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TanStack Query](https://tanstack.com/query) — data fetching & caching
+- [Axios](https://axios-http.com/) — HTTP client
+- [Formik](https://formik.org/) + [Yup](https://github.com/jquense/yup) — forms & validation
+- [Swiper](https://swiperjs.com/) — image gallery/carousel
+- [react-hot-toast](https://react-hot-toast.com/) — notifications
+- CSS Modules
+- [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/) — linting & formatting
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18.18+ (or 20+)
+- npm / yarn / pnpm / bun
+
+### Installation
+
+```bash
+git clone https://github.com/TarasBilyi/travel-trucks.git
+cd travel-trucks
+npm install
+```
+
+### Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build & run in production mode
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+### Other scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command         | Description                   |
+| --------------- | ----------------------------- |
+| `npm run dev`   | Start the development server  |
+| `npm run build` | Build the app for production  |
+| `npm run start` | Run the production build      |
+| `npm run lint`  | Lint the codebase with ESLint |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+travel-trucks/
+├─ app/
+│  ├─ page.tsx                       # Landing page
+│  ├─ layout.tsx                     # Root layout (fonts, header, providers)
+│  ├─ globals.css                    # Global styles & CSS variables
+│  ├─ not-found.tsx                  # Custom 404 page
+│  └─ catalog/
+│     ├─ (list)/                     # Catalog list route group
+│     │  ├─ page.tsx                 # Reads searchParams, passes filters down
+│     │  ├─ CatalogClient.tsx        # Infinite query + list rendering
+│     │  ├─ layout.tsx               # Sidebar filters layout
+│     │  └─ loading.tsx              # Route-level loading state
+│     └─ [camperId]/                 # Camper details route
+│        ├─ page.tsx                 # Server-side data fetching + metadata
+│        └─ CamperDetailsClient.tsx  # Details layout (gallery, specs, reviews, booking)
+├─ components/
+│  ├─ BookingForm/                   # Booking request form (Formik + Yup)
+│  ├─ CamperCard/                    # Catalog list item card
+│  ├─ CamperFilters/                 # Sidebar filters (location, form, transmission, engine)
+│  ├─ CamperGallery/                 # Swiper-based image gallery
+│  ├─ CamperReviews/                 # Reviews list
+│  ├─ Container/                     # Layout width wrapper
+│  ├─ EmptyState/                    # "No campers found" state
+│  ├─ Header/                        # Site header & navigation
+│  ├─ Icons/                         # SVG sprite icon components
+│  ├─ LoadingOverlay/                # Full-screen loading indicator
+│  ├─ RatingStars/                   # Star rating display
+│  └─ TanStackProvider/              # React Query client provider
+├─ lib/
+│  ├─ api/
+│  │  ├─ api.ts                      # Shared Axios instance
+│  │  ├─ clientApi.ts                # Client-side fetch functions (React Query)
+│  │  └─ serverApi.ts                # Server-side fetch functions (RSC)
+│  └─ format.ts                      # Formatting helpers (e.g. humanize labels)
+├─ types/
+│  └─ camper.ts                      # Shared TypeScript types
+├─ public/                           # Static assets (sprite.svg, images)
+├─ eslint.config.mjs
+├─ next.config.ts
+├─ tsconfig.json
+└─ package.json
+```
 
-## Deploy on Vercel
+## 🔌 API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The app consumes the [GoIT Campers API](https://campers-api.goit.study):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Method | Endpoint                        | Description                          |
+| ------ | ------------------------------- | ------------------------------------ |
+| GET    | `/campers`                      | Paginated list with optional filters |
+| GET    | `/campers/:id`                  | Camper details                       |
+| GET    | `/campers/:id/reviews`          | Camper reviews                       |
+| GET    | `/campers/filters`              | Available filter options             |
+| POST   | `/campers/:id/booking-requests` | Submit a booking request             |
+
+Query params supported by `GET /campers`: `page`, `perPage`, `location`, `form`, `transmission`, `engine`.
